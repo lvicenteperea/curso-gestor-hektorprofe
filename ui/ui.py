@@ -1,5 +1,5 @@
 import helpers
-import database as db
+import db.clientes as db
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import askokcancel, WARNING
@@ -194,8 +194,7 @@ class MainWindow(Tk, CenterWidgetMixin):
             campos = self.treeview.item(cliente, "values")
             confirmar = askokcancel(
                 title="Confirmar borrado",
-                message=f"¿Borrar {campos[1]} {campos[2]}?",
-                icon=WARNING)
+                message=f"¿Borrar {campos[1]} {campos[2]}?", icon=WARNING)
             if confirmar:
                 self.treeview.delete(cliente)
                 db.Clientes.borrar(campos[0])

@@ -1,3 +1,5 @@
+ORIGEN: https://docs.hektorprofe.net/academia/python/proyecto-gestor-clientes/
+
 # Gestor de clientes en Python
 
 Repositorio del proyecto completo del curso de Python.

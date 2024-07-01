@@ -4,7 +4,7 @@ import copy
 import config
 import helpers
 import unittest
-import database as db
+import database.clientes as db
 
 
 class TestDatabase(unittest.TestCase):
