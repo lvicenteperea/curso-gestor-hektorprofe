@@ -1,8 +1,20 @@
+'''
+este fichero ha sido la base del ejercicio, pero tiene todo lo necesario para realizar
+el ejercicio de cliente, en un solo fichero y tirando de un csv como bbdd
+
+Desde este se han sacado o sería lo que con BBDD es:
+- db
+  +- esquemas
+    -- cliente.py
+  +- modulos
+    -- cliente.py
+
+  -- dbcliente.py
+'''
+
 import csv
 import config
 
-
-'''
 def cliente_schema(cliente_cursor) -> dict:
     print("Aqui estamos2 ", type(cliente_cursor))
     return {"dni": cliente_cursor["dni"],
@@ -12,7 +24,7 @@ def cliente_schema(cliente_cursor) -> dict:
 
 def clientes_schema(clientes_cursor) -> list:
     return [cliente_schema(cliente) for cliente in clientes_cursor]
-'''
+
 
 class Cliente:
     def __init__(self, dni, nombre, apellido):
@@ -53,7 +65,6 @@ class Clientes:
             cliente = Cliente(dni, nombre, apellido)
             lista.append(cliente)
      
-    # esto en realidad es la list "lista"
     @staticmethod
     def listar():
         mi_lista = []

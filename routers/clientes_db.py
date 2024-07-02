@@ -1,43 +1,34 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, constr, validator
-
-import db.clientes as db
-import helpers
-
+from db.modelos.cliente_mod import Cliente
+from db.db_connect import db_connect
+from db.esquemas.cliente_sch import cliente_schema, clientes_schema
+from bson import ObjectId
 
 headers = {"content-type": "charset=utf-8"}
 
-class ModeloCliente(BaseModel):
-    dni: constr(min_length=3, max_length=3)
-    nombre: constr(min_length=2, max_length=30)
-    apellido: constr(min_length=2, max_length=30)
-
-class ModeloCrearCliente(ModeloCliente):
-    @validator("dni")
-    def validar_dni(cls, dni):
-        if not helpers.dni_valido(dni, db.Clientes.lista):
-            raise ValueError("Cliente ya existente o DNI incorrecto")
-        
-        return dni
+router = APIRouter(prefix="/clientedb", # ver documentación para ver como hay que hacer las llamadas
+                   tags=["Cliente BBDD"],  # es para que en la documentación separe los servicios de esta API
+                   responses= {404: {"message": "No encontrado"}}
+                  )
 
 
-router = APIRouter(prefix="/clientes", # ver documentación para ver como hay que hacer las llamadas
-                   tags=["Clientes"],  # es para que en la documentación separe los servicios de esta API
-                   #responses= {404: {"message": "No encontrado"}}
-             )
-
-
-@router.get("/", tags=["Clientes"])
+@router.get("/",)
 async def clientes():
-    content = []
-    #content = [cliente.to_dict() for cliente in db.Clientes.lista]
+
+    lista = clientes_schema(db_connect.clientes.find())
+    return JSONResponse(content=lista, headers=headers)
+
+    '''
+    lista = []
+    #lista = [cliente.to_dict() for cliente in db.Clientes.lista]
     for cliente in db.Clientes.lista:
-        content.append(cliente.to_dict())
+        lista.append(cliente.to_dict())
 
-    return JSONResponse(content=content, headers=headers)
+    return JSONResponse(content=lista, headers=headers)
+    '''
 
-
+'''
 @router.get("/buscar/{dni}/")
 async def clientes_buscar(dni: str):
     cliente = db.Clientes.buscar(dni=dni)
@@ -73,3 +64,4 @@ async def clientes_borrar(dni: str):
         return JSONResponse(content=cliente.to_dict(), headers=headers)
     
     raise HTTPException(status_code=404)
+'''
