@@ -1,5 +1,8 @@
 import sys
 
+# URL de la aplicación
+URL = "http://127.0.0.1:8000/"
+
 # cuando se utilizan los APIs con ejemplos de BBDD:
 #   - LOCAL tira la una BBDD local 
 #   - culquier otro valor, tira de una BBDD en la nube de Mongo

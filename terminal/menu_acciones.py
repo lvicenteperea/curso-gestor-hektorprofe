@@ -1,4 +1,3 @@
-import os
 import helpers
 import db.clientes as db
 
@@ -16,6 +15,7 @@ def listar():
         print("")
 
 
+
 def buscar():
     print("Buscando un cliente...\n")
 
@@ -24,6 +24,7 @@ def buscar():
     cliente = db.Clientes.buscar(dni)
 
     print(cliente) if cliente else print("Cliente no encontrado.")
+
 
 
 def add():

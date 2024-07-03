@@ -7,6 +7,7 @@ import terminal.menu_acciones as accion
 def iniciar():
     opcion = None
     acciones = {'1': 'listar',
+                'A': 'listar mediante API',
                 '2': 'buscar',
                 '3': 'add',
                 '4': 'modificar',
@@ -21,6 +22,7 @@ def iniciar():
         print("  Bienvenido al Gestor  ")
         print("========================")
         print("[1] Listar los clientes ")
+        print("[A] API Listar clientes ")
         print("[2] Buscar un cliente   ")
         print("[3] Añadir un cliente   ")
         print("[4] Modificar un cliente")
