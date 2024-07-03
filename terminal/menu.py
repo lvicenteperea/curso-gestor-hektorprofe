@@ -15,7 +15,7 @@ def iniciar():
                 '0': 'salir'
                 }
     
-    while opcion != '6':
+    while opcion != '0':
         helpers.limpiar_pantalla()
 
         print("========================")
