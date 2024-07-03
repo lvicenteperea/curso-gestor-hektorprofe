@@ -1,5 +1,7 @@
 import helpers
 import db.clientes as db
+import requests
+import config
 
 
 def listar():
@@ -13,6 +15,18 @@ def listar():
             if clave != 'dni':
                 print(f"   - {clave} - {valor}")
         print("")
+
+
+def listar_API():
+
+    print("Listando los clientes mediante API...\n")
+
+    respuesta = requests.get(f"{config.URL}clientedb/")
+
+    json = respuesta.json()
+
+    for j in json:
+        print(j)
 
 
 

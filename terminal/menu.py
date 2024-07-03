@@ -7,12 +7,12 @@ import terminal.menu_acciones as accion
 def iniciar():
     opcion = None
     acciones = {'1': 'listar',
-                'A': 'listar mediante API',
-                '2': 'buscar',
-                '3': 'add',
-                '4': 'modificar',
-                '5': 'borrar',
-                '6': 'salir'
+                '2': 'listar_API',
+                '3': 'buscar',
+                '4': 'add',
+                '5': 'modificar',
+                '6': 'borrar',
+                '0': 'salir'
                 }
     
     while opcion != '6':
@@ -22,12 +22,12 @@ def iniciar():
         print("  Bienvenido al Gestor  ")
         print("========================")
         print("[1] Listar los clientes ")
-        print("[A] API Listar clientes ")
-        print("[2] Buscar un cliente   ")
-        print("[3] Añadir un cliente   ")
-        print("[4] Modificar un cliente")
-        print("[5] Borrar un cliente   ")
-        print("[6] Cerrar el Gestor    ")
+        print("[2] API Listar clientes ")
+        print("[3] Buscar un cliente   ")
+        print("[4] Añadir un cliente   ")
+        print("[5] Modificar un cliente")
+        print("[6] Borrar un cliente   ")
+        print("[0] Cerrar el Gestor    ")
         print("========================")
 
         opcion = input("> ")
