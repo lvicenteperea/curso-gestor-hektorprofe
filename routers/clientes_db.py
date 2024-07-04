@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import JSONResponse
 from db.modelos.cliente_mod import Cliente
-from db.db_connect import db_connect
+from db.db_mongo import db_connect
 from db.esquemas.cliente_sch import cliente_schema, clientes_schema
 from bson import ObjectId
 

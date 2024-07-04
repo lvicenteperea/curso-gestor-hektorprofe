@@ -8,10 +8,10 @@ def limpiar_pantalla():
 
 
 def leer_texto(longitud_min=0, longitud_max=100, mensaje=None):
-    print(mensaje) if mensaje else None
+    print(mensaje + ' ("Q" para salir)') if mensaje else '"Q" para salir'
     while True:
         texto = input("> ")
-        if len(texto) >= longitud_min and len(texto) <= longitud_max:
+        if (len(texto) >= longitud_min and len(texto) <= longitud_max) or texto == "Q":
             return texto
 
 

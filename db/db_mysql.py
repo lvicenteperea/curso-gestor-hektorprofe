@@ -1,85 +1,51 @@
 #pip install mysql-connector-python
 import mysql.connector
 
-# Función para conectar a la base de datos MySQL y obtener datos de la tabla 'usuarios' basado en el nombre de usuario
-def busca_usuario(username, password):
-    ret = False
-
+# ----------------------------------------------
+# conectamos a la BBDD de MySQL
+# ----------------------------------------------
+def conectar() -> mysql.connector:
     try:
         # Establecer la conexión con la base de datos MySQL local
-        connection = mysql.connector.connect(
-            host='localhost',
-            user='root',  # Reemplaza con tu nombre de usuario de MySQL
-            password='admin',  # Reemplaza con tu contraseña de MySQL
-            database='curso_gestor_hektor'  # Reemplaza con el nombre de tu base de datos
-        )
+        return mysql.connector.connect(host='localhost',
+                                       user='root',  # Reemplaza con tu nombre de usuario de MySQL
+                                       password='admin',  # Reemplaza con tu contraseña de MySQL
+                                       database='curso_gestor_hektor'  # Reemplaza con el nombre de tu base de datos
+                                      )
         
+    except mysql.connector.Error as error:
+        print(f"Error: {error}")
+
+# ----------------------------------------------
+# desconectamos de la BBDD de MySQL
+# ----------------------------------------------
+def desconectar(conn: mysql.connector):
+    try:
+        if conn.is_connected():
+            conn.close()
+            print("Conexión a MySQL cerrada")
+
+    except mysql.connector.Error as error:
+        print(f"Error: {error}")
+
+# ----------------------------------------------
+# Retornamos un cursor para una select de la BBDD
+# ----------------------------------------------
+def cursor_select(conn: mysql.connector, consulta: str, *args):
+
+    try:
         # Crear un objeto cursor usando el método cursor()
-        cursor = connection.cursor()
+        cursor = conn.cursor()
         
         # Ejecutar la consulta SQL con parámetros
-        query = "SELECT pwd FROM usuarios WHERE usuario = %s"
-        cursor.execute(query, (username,))
+        cursor.execute(consulta, args)
         
         # Obtener el registro de la tabla 'usuarios' que coincide con el nombre de usuario
-        result = cursor.fetchone()
-        
-        # Verificar si se encontró un usuario y comparar la contraseña
-        if result:
-            stored_password = result[0]
-            # Suponiendo que 'ppp' está almacenado como un hash SHA256 de la contraseña
-            password_hash = password   # sha256(password.encode()).hexdigest()
-            ret = password_hash == stored_password
-            print(f"resultado: {ret}")
+        return cursor.fetchone()
 
 
     except mysql.connector.Error as error:
         print(f"Error: {error}")
     finally:
         # Cerrar el cursor y la conexión
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
-            print("Conexión a MySQL cerrada")
-
-        return ret
-
-
-
-
-'''
-# Función para conectar a la base de datos MySQL y obtener datos de la tabla 'usuarios'
-def fetch_users():
-    try:
-        # Establecer la conexión con la base de datos MySQL local
-        connection = mysql.connector.connect(
-            host='localhost',
-            user='tu_usuario',  # Reemplaza con tu nombre de usuario de MySQL
-            password='tu_contraseña',  # Reemplaza con tu contraseña de MySQL
-            database='nombre_de_tu_base_de_datos'  # Reemplaza con el nombre de tu base de datos
-        )
-        
-        # Crear un objeto cursor usando el método cursor()
-        cursor = connection.cursor()
-        
-        # Ejecutar la consulta SQL
-        cursor.execute("SELECT * FROM usuarios")
-        
-        # Obtener todas las filas de la tabla 'usuarios'
-        users = cursor.fetchall()
-        
-        # Imprimir los datos obtenidos
-        for user in users:
-            print(user)
-        
-    except mysql.connector.Error as error:
-        print(f"Error: {error}")
-    finally:
-        # Cerrar el cursor y la conexión
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
-            print("Conexión a MySQL cerrada")
-
-
-'''
+        cursor.close()
