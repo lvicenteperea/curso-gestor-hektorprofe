@@ -11,11 +11,8 @@ class Usuario():
         ret = False
 
         try:
-            # Establecer la conexión con la base de datos MySQL local
-            connection = db_mysql.conectar()
-            
             # Obtener el registro de la tabla 'usuarios' que coincide con el nombre de usuario
-            result = db_mysql.cursor_select(connection,
+            result = db_mysql.cursor_select(None,   # no enviamos conexión pra que se conecte la propia función
                                             "SELECT pwd FROM usuarios WHERE usuario = %s",
                                             username
                                            )
@@ -31,14 +28,10 @@ class Usuario():
                 print(f"Error: en la llamada")
 
 
-        except mysql.connector.Error as error:
+        except Exception as error:
             print(f"Error: {error}")
         finally:
-            # Cerrar el cursor y la conexión
-            db_mysql.desconectar(connection)
             return ret
-
-
 
 '''
 # Función para conectar a la base de datos MySQL y obtener datos de la tabla 'usuarios' basado en el nombre de usuario
