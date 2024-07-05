@@ -1,6 +1,8 @@
 #pip install mysql-connector-python
 import mysql.connector
 import mysql.connector.cursor
+import error.mi_error as ctr_errores
+import inspect
 
 # ----------------------------------------------
 # conectamos a la BBDD de MySQL
@@ -63,3 +65,6 @@ def cursor_select(conn: mysql.connector, consulta: str, *args) -> mysql.connecto
 
     except mysql.connector.Error as error:
         print(f"Error: {error}")
+
+    except Exception as e:
+        return ctr_errores.MiError(inspect.currentframe().f_code.co_name, str(e))

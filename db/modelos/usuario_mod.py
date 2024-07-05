@@ -1,37 +1,50 @@
 import db.db_mysql as db_mysql
+import error.mi_error as ctr_errores
+import inspect
 
 class Usuario():
 
+    tipo = 'Normal'
+
     def __init__(self, nombre, pwd) -> None:
-        pass
+        self.nombre = nombre
+        self.pwd = pwd
+
+
+    def get_nombre(self):
+        return self.nombre + (self.tipo)
 
     # Función para conectar a la base de datos MySQL y obtener datos de la tabla 'usuarios' basado en el nombre de usuario
     def valida_usu_pwd(username: str, password: str) -> bool:
 
-        ret = False
+        usuario = None
+        query = "SELECT pwd FROM usuarios WHERE usuario = %s"
 
         try:
             # Obtener el registro de la tabla 'usuarios' que coincide con el nombre de usuario
             result = db_mysql.cursor_select(None,   # no enviamos conexión pra que se conecte la propia función
-                                            "SELECT pwd FROM usuarios WHERE usuario = %s",
+                                            query,
                                             username
                                            )
             
             # Verificar si se encontró un usuario y comparar la contraseña
-            if result:
+            if isinstance(result, tuple):  # not ..... ctr_errores.MiError):
                 stored_password = result[0]
                 # Suponiendo que 'ppp' está almacenado como un hash SHA256 de la contraseña
                 password_hash = password   # sha256(password.encode()).hexdigest()
-                ret = password_hash == stored_password
-                print(f"resultado: {ret}")
+                ret = (password_hash == stored_password)
+                if ret:
+                    usuario = Usuario(username, password)
+                #print(f"resultado: {ret}")
             else:
-                print(f"Error: en la llamada")
+                ctr_errores.MiError("Error acceso BBDD", query)
+                #print(f"Error: en la llamada")                
 
-
-        except Exception as error:
-            print(f"Error: {error}")
+        except Exception as e:
+            ctr_errores.MiError(f"Error ({inspect.currentframe().f_code.co_name})", str(e))
+        
         finally:
-            return ret
+            return usuario
 
 '''
 # Función para conectar a la base de datos MySQL y obtener datos de la tabla 'usuarios' basado en el nombre de usuario

@@ -2,9 +2,10 @@ import os
 import helpers
 import db.clientes as db
 import terminal.menu_acciones as accion
+import db.modelos.usuario_mod as usuario
 
 
-def iniciar():
+def iniciar(usu: usuario.Usuario):
     opcion = None
     acciones = {'1': 'listar',
                 '2': 'listar_API',
@@ -20,6 +21,7 @@ def iniciar():
 
         print("========================")
         print("  Bienvenido al Gestor  ")
+        print(f"  {usu.get_nombre()}  ")
         print("========================")
         print("[1] Listar los clientes ")
         print("[2] API Listar clientes ")
