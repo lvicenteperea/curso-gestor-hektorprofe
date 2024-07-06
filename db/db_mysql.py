@@ -26,7 +26,6 @@ def desconectar(conn: mysql.connector):
     try:
         if conn.is_connected():
             conn.close()
-            print("Conexión a MySQL cerrada")
 
     except mysql.connector.Error as error:
         print(f"Error: {error}")

@@ -3,6 +3,7 @@ import ui.ui as ui
 import terminal.menu as menu
 import terminal.usuario as term_usuario
 import db.modelos.usuario_mod as class_usu
+import error.mi_error as ctr_errores
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "-t":
@@ -10,6 +11,8 @@ if __name__ == "__main__":
 
         if isinstance(usu, class_usu.Usuario):
             menu.iniciar(usu)
+        elif isinstance(usu, ctr_errores.MiError):
+            print(usu)
     else:
         app = ui.MainWindow()
         app.mainloop()

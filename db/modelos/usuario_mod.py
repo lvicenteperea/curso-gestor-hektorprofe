@@ -15,36 +15,32 @@ class Usuario():
         return self.nombre + (self.tipo)
 
     # Función para conectar a la base de datos MySQL y obtener datos de la tabla 'usuarios' basado en el nombre de usuario
-    def valida_usu_pwd(username: str, password: str) -> bool:
+    def valida_usu_pwd(self) -> bool:
 
-        usuario = None
-        query = "SELECT pwd FROM usuarios WHERE usuario = %s"
+        ret = False
 
         try:
             # Obtener el registro de la tabla 'usuarios' que coincide con el nombre de usuario
             result = db_mysql.cursor_select(None,   # no enviamos conexión pra que se conecte la propia función
-                                            query,
-                                            username
+                                            "SELECT pwd FROM usuarios WHERE usuario = %s",
+                                            self.nombre
                                            )
             
             # Verificar si se encontró un usuario y comparar la contraseña
             if isinstance(result, tuple):  # not ..... ctr_errores.MiError):
                 stored_password = result[0]
                 # Suponiendo que 'ppp' está almacenado como un hash SHA256 de la contraseña
-                password_hash = password   # sha256(password.encode()).hexdigest()
-                ret = (password_hash == stored_password)
-                if ret:
-                    usuario = Usuario(username, password)
-                #print(f"resultado: {ret}")
+                password_hash = self.pwd   # sha256(password.encode()).hexdigest()
+                if  (password_hash == stored_password):
+                    return self
+                else:
+                    return ctr_errores.MiError("Usuario/PWD", "No existe esta coincidencia en la BBDD")
             else:
-                ctr_errores.MiError("Error acceso BBDD", query)
-                #print(f"Error: en la llamada")                
+                return ctr_errores.MiError("Usuario/PWD", "No existe esta coincidencia en la BBDD (usu)")
 
         except Exception as e:
-            ctr_errores.MiError(f"Error ({inspect.currentframe().f_code.co_name})", str(e))
-        
-        finally:
-            return usuario
+            return ctr_errores.MiError(f"Error ({inspect.currentframe().f_code.co_name})", str(e))
+
 
 '''
 # Función para conectar a la base de datos MySQL y obtener datos de la tabla 'usuarios' basado en el nombre de usuario
