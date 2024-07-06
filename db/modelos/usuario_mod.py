@@ -4,18 +4,26 @@ import inspect
 
 class Usuario():
 
-    tipo = 'Normal'
 
-    def __init__(self, nombre, pwd) -> None:
-        self.nombre = nombre
-        self.pwd = pwd
+
+    def __init__(self, *args) -> None:
+
+        self.nombre = None
+        self.pwd = None
+        self.tipo = 'Normal'
+        self.apellido = None
+        self.email = None
+
+        for indice, valor in args[0].items():
+            if hasattr(self, indice):
+                setattr(self, indice, valor)
 
 
     def get_nombre(self):
         return self.nombre + (self.tipo)
 
     # Función para conectar a la base de datos MySQL y obtener datos de la tabla 'usuarios' basado en el nombre de usuario
-    def valida_usu_pwd(self) -> bool:
+    def valida_usu_pwd(self):
 
         ret = False
 

@@ -14,8 +14,8 @@ def valida_usuario() -> bool:
         pwd = helpers.leer_texto(2, 12, "introduce tu pwd")
         
         if pwd.upper() != "Q":
-            mi_usuario = usuario.Usuario(usu, pwd)
-            
+            mi_usuario = usuario.Usuario({"nombre": usu, "pwd": pwd})
+
             return mi_usuario.valida_usu_pwd()
         else:
             return ctr_errores.MiError(f"Error ({inspect.currentframe().f_code.co_name})", "Salida voluntaria del sistema")
