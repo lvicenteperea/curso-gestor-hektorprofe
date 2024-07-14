@@ -1,4 +1,4 @@
-# para asegurar copia desde portatil
+# para asegurar copia desde portatil 
 class Cliente:
     def __init__(self, dni, nombre, apellido):
         self.dni = dni
